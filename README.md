@@ -1,6 +1,6 @@
 # BoterKaas-Eieren
 
-Just a simple TicTacToe game, to test my knowledge in programming
+Just a simple TicTacToe game to test my knowledge in programming
 
 Current features 
 - Both players can give input to set their sign
@@ -9,12 +9,12 @@ Current features
 - Check if there is a draw
 - The ability to start a new game when the game is finished
 
-Future features
+Future ideas
 - Keep score of the wins/lose/draws
-- Add a GUI
+- Add a GUI (WPF)
 - The ability to play over a LAN
 - The ability to play this game on a website/phone app
 
-I am still learning a lot and my knowlodge is far from great, while i am learning new stuff i will try to put that knowlegde in the future features.
+I am still learning a lot and my knowledge is far from great while i am learning new stuff i will try to put that knowlegde in the future features.
 
 Feel free to use it!
