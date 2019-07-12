@@ -214,5 +214,7 @@ namespace BoterKaasEnEieren
                 case 9: playfield[2, 2] = playerIcon; break;
             }
         }
+
+        // TODO: GUI, LAN, Score tracking & web version
     }
 }
