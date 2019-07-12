@@ -8,78 +8,81 @@ namespace BoterKaasEnEieren
 {
     class Program
     {
-        // Speelveld tijdens spelen
-        static char[,] speelveld =
+        // Playfield while playing
+        static char[,] playfield =
         {
-            {'1', '2', '3'}, // Rij 1
-            {'4', '5', '6'}, // Rij 2
-            {'7', '8', '9'}  // Rij 3
+            {'1', '2', '3'}, // Row 1
+            {'4', '5', '6'}, // Row 2
+            {'7', '8', '9'}  // Row 3
         };
 
-        // Bijhouden van het aantal zetten om te kijken of er gelijkspel is
-        static int aantalZetten = 0;
+        // Variable to check for a draw
+        static int turns = 0;
 
         static void Main(string[] args)
         {
-            int speler = 2; // Speler 1 start
+            int player = 2; // player 1 start
             int input = 0;
             bool inputCorrect = true;
 
-            // Programma blijven draaien zolang er wordt gespeeld
+            // Keep program active until the program is stopped
             do
             {
-                if (speler == 2)
+                // Check whose turn it is
+                if (player == 2)
                 {
-                    speler = 1;
-                    XofO(speler, input);
+                    player = 1;
+                    XorO(player, input);
                 }
-                else if(speler == 1)
+                else if(player == 1)
                 {
-                    speler = 2;
-                    XofO(speler, input);
+                    player = 2;
+                    XorO(player, input);
                 }
 
-                ZetSpeelveld(); // Speelveld initialisatie
+                SetPlayfield(); // Initialise playfield
 
                 #region
-                // Bepalen of iemand gewonnen heeft
-                char[] spelerLetters = { 'X', 'O' };
+                // Decide who has won
+                char[] playerChars = { 'X', 'O' };
 
-                foreach(char spelerLetter in spelerLetters)
+                foreach(char playerChar in playerChars)
                 {
-                     if(((speelveld[0,0] == spelerLetter) && (speelveld[0,1] == spelerLetter) && (speelveld[0,2] == spelerLetter))
-                        || ((speelveld[1, 0] == spelerLetter) && (speelveld[1, 1] == spelerLetter) && (speelveld[1, 2] == spelerLetter))
-                        || ((speelveld[2, 0] == spelerLetter) && (speelveld[2, 1] == spelerLetter) && (speelveld[2, 2] == spelerLetter))
-                        || ((speelveld[0, 0] == spelerLetter) && (speelveld[1, 0] == spelerLetter) && (speelveld[2, 0] == spelerLetter))
-                        || ((speelveld[0, 1] == spelerLetter) && (speelveld[1, 1] == spelerLetter) && (speelveld[2, 1] == spelerLetter))
-                        || ((speelveld[0, 2] == spelerLetter) && (speelveld[1, 2] == spelerLetter) && (speelveld[2, 2] == spelerLetter))
-                        || ((speelveld[0, 0] == spelerLetter) && (speelveld[1, 1] == spelerLetter) && (speelveld[2, 2] == spelerLetter))
-                        || ((speelveld[0, 2] == spelerLetter) && (speelveld[1, 1] == spelerLetter) && (speelveld[2, 0] == spelerLetter))
+                     if(((playfield[0,0] == playerChar) && (playfield[0,1] == playerChar) && (playfield[0,2] == playerChar))
+                        || ((playfield[1, 0] == playerChar) && (playfield[1, 1] == playerChar) && (playfield[1, 2] == playerChar))
+                        || ((playfield[2, 0] == playerChar) && (playfield[2, 1] == playerChar) && (playfield[2, 2] == playerChar))
+                        || ((playfield[0, 0] == playerChar) && (playfield[1, 0] == playerChar) && (playfield[2, 0] == playerChar))
+                        || ((playfield[0, 1] == playerChar) && (playfield[1, 1] == playerChar) && (playfield[2, 1] == playerChar))
+                        || ((playfield[0, 2] == playerChar) && (playfield[1, 2] == playerChar) && (playfield[2, 2] == playerChar))
+                        || ((playfield[0, 0] == playerChar) && (playfield[1, 1] == playerChar) && (playfield[2, 2] == playerChar))
+                        || ((playfield[0, 2] == playerChar) && (playfield[1, 1] == playerChar) && (playfield[2, 0] == playerChar))
                         )                        
                      {
-                        if (spelerLetter == 'X')
+                        // Write who has won
+                        if (playerChar == 'X')
                         {
-                            Console.WriteLine("Speler 2: Winner winner chicken dinner!");
+                            Console.WriteLine("Player 2: Winner winner chicken dinner!");
                         }
                         else
                         {
-                            Console.WriteLine("Speler 1: Winner winner chicken dinner!");
+                            Console.WriteLine("Player 1: Winner winner chicken dinner!");
                         }
-                        Console.WriteLine("Druk op een willekeurige toets om het spel opnieuw te starten!");
+                        Console.WriteLine("Press any key to reset the game!");
                         Console.ReadKey();
-                        // Resetten van het speelveld
-                        ResetSpeelveld();
+                        // Reset the playfield
+                        ResetPlayfield();
 
                         break;
                      }
-                    else if (aantalZetten == 10)
-                    {
-                        Console.WriteLine("Gelijkspel!");
-                        Console.WriteLine("Druk op een willekeurige toets om het spel opnieuw te starten!");
-                        Console.ReadKey();
-                        ResetSpeelveld();
-                        break;
-                    }
+                     // In case there is a draw
+                     else if (playerChar == 10)
+                     {
+                         Console.WriteLine("It's a DRAW!");
+                         Console.WriteLine("Press any key to reset the game!");
+                         Console.ReadKey();
+                         ResetPlayfield();
+                         break;
+                     }
 
                 }
 
@@ -87,10 +90,10 @@ namespace BoterKaasEnEieren
                 #endregion
 
                 #region
-                // Checken of het veld al bezet is
+                // Check if field is still available
                 do
                 {
-                    Console.WriteLine("\nSpeler {0}: Kies jouw veld! ", speler);
+                    Console.WriteLine("\nPlayer {0}: Kies jouw veld! ", player);
                     try
                     {
                         input = Convert.ToInt32(Console.ReadLine());
@@ -98,48 +101,49 @@ namespace BoterKaasEnEieren
                     catch (FormatException)
                     {
 
-                        Console.WriteLine("Voer een getal in niet een letter!");
+                        Console.WriteLine("Please fill in a valid number!");
                     }
 
-                    if ((input == 1) && (speelveld[0, 0] == '1'))
+                    if ((input == 1) && (playfield[0, 0] == '1'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 2) && (speelveld[0, 1] == '2'))
+                    else if ((input == 2) && (playfield[0, 1] == '2'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 3) && (speelveld[0, 2] == '3'))
+                    else if ((input == 3) && (playfield[0, 2] == '3'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 4) && (speelveld[1, 0] == '4'))
+                    else if ((input == 4) && (playfield[1, 0] == '4'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 5) && (speelveld[1, 1] == '5'))
+                    else if ((input == 5) && (playfield[1, 1] == '5'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 6) && (speelveld[1, 2] == '6'))
+                    else if ((input == 6) && (playfield[1, 2] == '6'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 7) && (speelveld[2, 0] == '7'))
+                    else if ((input == 7) && (playfield[2, 0] == '7'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 8) && (speelveld[2, 1] == '8'))
+                    else if ((input == 8) && (playfield[2, 1] == '8'))
                     {
                         inputCorrect = true;
                     }
-                    else if ((input == 9) && (speelveld[2, 2] == '9'))
+                    else if ((input == 9) && (playfield[2, 2] == '9'))
                     {
                         inputCorrect = true;
                     }
                     else
+                    // In case the chosen field was already filled in
                     {
-                        Console.WriteLine("\nVerkeerde invoer! Kies een ander veld ");
+                        Console.WriteLine("\nWrong field, choose another field!");
                         inputCorrect = false;
                     }
                 } while (!inputCorrect);
@@ -149,62 +153,65 @@ namespace BoterKaasEnEieren
 
         }
 
-        public static void ZetSpeelveld()
+        // Show the playfield
+        public static void SetPlayfield()
         {
             Console.Clear();
-            Console.WriteLine("Boter, kaas en eieren V1.0");
+            Console.WriteLine("Tip Tac Toe V1.0");
             Console.WriteLine(" _____ _____ _____");
             Console.WriteLine("|     |     |     |");
-            Console.WriteLine("|  {0}  |  {1}  |  {2}  |", speelveld[0,0], speelveld[0, 1], speelveld[0, 2]); // Rij 1 overlay voor daadwerkelijke speelveld
+            Console.WriteLine("|  {0}  |  {1}  |  {2}  |", playfield[0,0], playfield[0, 1], playfield[0, 2]); // Row 1
             Console.WriteLine("|_____|_____|_____|");
             Console.WriteLine("|     |     |     |");
-            Console.WriteLine("|  {0}  |  {1}  |  {2}  |", speelveld[1, 0], speelveld[1, 1], speelveld[1, 2]); // Rij 2 overlay voor daadwerkelijke speelveld
+            Console.WriteLine("|  {0}  |  {1}  |  {2}  |", playfield[1, 0], playfield[1, 1], playfield[1, 2]); // Row 2
             Console.WriteLine("|_____|_____|_____|");
             Console.WriteLine("|     |     |     |");
-            Console.WriteLine("|  {0}  |  {1}  |  {2}  |", speelveld[2, 0], speelveld[2, 1], speelveld[2, 2]); // Rij 3 overlay voor daadwerkelijke speelveld
+            Console.WriteLine("|  {0}  |  {1}  |  {2}  |", playfield[2, 0], playfield[2, 1], playfield[2, 2]); // Row 3
             Console.WriteLine("|_____|_____|_____|");
-            aantalZetten++;
+            turns++;
         }
 
-        public static void ResetSpeelveld()
+        // Reset function if the game is over
+        public static void ResetPlayfield()
         {
-            // Speelveld start van het spel
-            char[,] initieelSpeelveld =
+            // Initial playfield for the reset (overwrites the current playfield)
+            char[,] initialPlayfield =
             {
-            {'1', '2', '3'}, // Rij 1
-            {'4', '5', '6'}, // Rij 2
-            {'7', '8', '9'}  // Rij 3
+            {'1', '2', '3'}, // Row 1
+            {'4', '5', '6'}, // Row 2
+            {'7', '8', '9'}  // Row 3
             };
 
-            speelveld = initieelSpeelveld;
-            ZetSpeelveld();
-            aantalZetten = 0;
+            playfield = initialPlayfield;
+            SetPlayfield();
+            turns = 0;
         }
 
-        public static void XofO(int speler, int input)
+        // Store X or O depending on the player
+        public static void XorO(int player, int input)
         {
-            char spelerIcoon = ' ';
+            char playerIcon = ' ';
 
-            if (speler == 1)
+            if (player == 1)
             {
-                spelerIcoon = 'X';
+                playerIcon = 'X';
             }
-            else if (speler == 2)
+            else if (player == 2)
             {
-                spelerIcoon = 'O';
+                playerIcon = 'O';
             }
 
             switch (input)
             {
-                case 1: speelveld[0, 0] = spelerIcoon; break;
-                case 2: speelveld[0, 1] = spelerIcoon; break;
-                case 3: speelveld[0, 2] = spelerIcoon; break;
-                case 4: speelveld[1, 0] = spelerIcoon; break;
-                case 5: speelveld[1, 1] = spelerIcoon; break;
-                case 6: speelveld[1, 2] = spelerIcoon; break;
-                case 7: speelveld[2, 0] = spelerIcoon; break;
-                case 8: speelveld[2, 1] = spelerIcoon; break;
-                case 9: speelveld[2, 2] = spelerIcoon; break;
+                case 1: playfield[0, 0] = playerIcon; break;
+                case 2: playfield[0, 1] = playerIcon; break;
+                case 3: playfield[0, 2] = playerIcon; break;
+                case 4: playfield[1, 0] = playerIcon; break;
+                case 5: playfield[1, 1] = playerIcon; break;
+                case 6: playfield[1, 2] = playerIcon; break;
+                case 7: playfield[2, 0] = playerIcon; break;
+                case 8: playfield[2, 1] = playerIcon; break;
+                case 9: playfield[2, 2] = playerIcon; break;
             }
         }
     }
