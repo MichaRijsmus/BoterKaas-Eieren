@@ -15,6 +15,6 @@ Future features
 - The ability to play over a LAN
 - The ability to play this game on a website/phone app
 
-I am still learning a lot and my knowlodge is far from great, while i am learning new stuff i will try to put that knowlegde in the future features.
+I am still learning a lot and my knowledge is far from great while i am learning new stuff i will try to put that knowlegde in the future features.
 
 Feel free to use it!
