@@ -11,7 +11,7 @@ Current features
 
 Future features
 - Keep score of the wins/lose/draws
-- Add a GUI
+- Add a GUI (WPF)
 - The ability to play over a LAN
 - The ability to play this game on a website/phone app
 
