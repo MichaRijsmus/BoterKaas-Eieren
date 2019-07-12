@@ -93,7 +93,7 @@ namespace BoterKaasEnEieren
                 // Check if field is still available
                 do
                 {
-                    Console.WriteLine("\nPlayer {0}: Kies jouw veld! ", player);
+                    Console.WriteLine("\nPlayer {0}: Choose your field! ", player);
                     try
                     {
                         input = Convert.ToInt32(Console.ReadLine());
@@ -216,7 +216,5 @@ namespace BoterKaasEnEieren
         }
 
         // TODO: GUI, LAN, Score tracking & web version
-
-        // TEST for username??
     }
 }
